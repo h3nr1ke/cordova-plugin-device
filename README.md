@@ -50,6 +50,7 @@ Report issues with this plugin on the [Apache Cordova issue tracker](https://iss
 - device.model
 - device.platform
 - device.uuid
+- device.imei
 - device.version
 - device.manufacturer
 - device.isVirtual
@@ -213,6 +214,29 @@ The `uuid` for Windows Phone 7 requires the permission
 property soon.  If the capability is not available, the application
 generates a persistent guid that is maintained for the duration of the
 application's installation on the device.
+
+## device.uuid
+
+Get the device's Universally Unique Identifier ([UUID](http://en.wikipedia.org/wiki/Universally_Unique_Identifier)).
+
+```js
+var string = device.uuid;
+```
+
+### Description
+
+Get the device IMEI using the android.telephony.TelephonyManager.getDeviceId().
+
+### Supported Platforms
+
+- Android
+
+### Quick Example
+
+```js
+//Works only in ANDROID, if the user refuses to grant the necessary permission the deice.uuid will returned instead
+var deviceIMEI = device.imei;
+```
 
 ## device.version
 
