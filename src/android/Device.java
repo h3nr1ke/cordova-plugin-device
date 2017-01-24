@@ -29,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.content.pm.PackageManager;
 
 public class Device extends CordovaPlugin {
     public static final String TAG = "Device";
@@ -56,6 +58,7 @@ public class Device extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         Device.uuid = getUuid();
+        Device.imei = getIMEI();
     }
 
     /**
@@ -70,6 +73,7 @@ public class Device extends CordovaPlugin {
         if ("getDeviceInfo".equals(action)) {
             JSONObject r = new JSONObject();
             r.put("uuid", Device.uuid);
+            r.put("imei", Device.imei);
             r.put("version", this.getOSVersion());
             r.put("platform", this.getPlatform());
             r.put("model", this.getModel());
@@ -111,6 +115,27 @@ public class Device extends CordovaPlugin {
     public String getUuid() {
         String uuid = Settings.Secure.getString(this.cordova.getActivity().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         return uuid;
+    }
+
+    public String getIMEI() {
+        //verifica
+        String imei = "";
+        int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,Manifest.permission.READ_PHONE_STATE);
+        if(permissionCheck ==  PackageManager.PERMISSION_GRANTED){
+            //ok, we have the permission... go ahead and read the info...
+            try{
+                TelephonyManager mngr = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE); 
+                imei = mngr.getDeviceId();
+            }
+            catch(Excpetion e){
+                //in case of any error, register the imei = uuid
+                imei = getUuid();
+            }
+        }
+        else{
+            imei = getUuid();
+        }
+        return imei;
     }
 
     public String getModel() {
