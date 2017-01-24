@@ -175,6 +175,7 @@
         <header-file src="src/osx/CDVDevice.h" />
         <source-file src="src/osx/CDVDevice.m" />
     </platform>
-
+    
+    <dependency id="cordova-plugin-android-support-v4" version="21.0.1" />
 
 </plugin>

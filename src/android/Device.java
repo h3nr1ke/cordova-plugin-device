@@ -37,6 +37,7 @@ public class Device extends CordovaPlugin {
 
     public static String platform;                            // Device OS
     public static String uuid;                                // Device UUID
+    public static String imei;                                // Device IMEI
 
     private static final String ANDROID_PLATFORM = "Android";
     private static final String AMAZON_PLATFORM = "amazon-fireos";
@@ -120,7 +121,7 @@ public class Device extends CordovaPlugin {
     public String getIMEI() {
         //verifica
         String imei = "";
-        int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,Manifest.permission.READ_PHONE_STATE);
+        int permissionCheck = ContextCompat.checkSelfPermission(this.cordova.getActivity().getContentResolver(),Manifest.permission.READ_PHONE_STATE);
         if(permissionCheck ==  PackageManager.PERMISSION_GRANTED){
             //ok, we have the permission... go ahead and read the info...
             try{
